@@ -17,7 +17,7 @@ on:
         required: false
         default: ''
 
-concurrency: release
+# note: we do not use any concurrency here, in order to avoid queued workflows being cancelled by higher priority workflows
 
 env:
   TAG_PREFIX: ""
@@ -145,6 +145,15 @@ jobs:
         sha=$(git rev-parse HEAD)
         echo "Target commit: $sha"
         echo "sha=$sha" >> $GITHUB_OUTPUT
+
+    - name: Wait for check suites to complete
+      uses: jitterbit/await-check-suites@v1
+      with:
+        ref: ${{ steps.get_target_commit.outputs.sha }}
+        intervalSeconds: 10
+        timeoutSeconds: 900
+        failStepIfUnsuccessful: true
+        appSlugFilter: github-actions
 
     - name: Create Release
       uses: softprops/action-gh-release@v1
