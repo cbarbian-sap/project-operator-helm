@@ -11,13 +11,11 @@ on:
 
 # note: we do not use any concurrency here, in order to avoid queued workflows being cancelled by higher priority workflows
 
+# TODO
 env:
   HELM_VERSION: v3.11.3
   SEMVER_VERSION: 3.4.0
-  REGISTRY: ghcr.io
   CHART_DIRECTORY: chart
-  # COP_REPOSITORY:
-  # COP_CHART_BASE_DIRECTORY:
 
 defaults:
   run:
