@@ -51,6 +51,6 @@ jobs:
     - name: Install Helm chart and run Helm tests
       run: |
         release_name=$(yq .name $CHART_DIRECTORY/Chart.yaml)
-        kubectl create ns operator-system
-        helm -n operator-system upgrade -i $release_name --wait --timeout 5m $CHART_DIRECTORY
-        helm -n operator-system test $release_name
+        kubectl create ns op-system
+        helm -n op-system upgrade -i $release_name --wait --timeout 5m $CHART_DIRECTORY
+        helm -n op-system test $release_name
