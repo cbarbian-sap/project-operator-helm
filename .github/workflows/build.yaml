@@ -52,4 +52,5 @@ jobs:
       run: |
         release_name=$(yq .name $CHART_DIRECTORY/Chart.yaml)
         kubectl create ns operator-system
-        helm -n operator-system upgrade -i $release_name $CHART_DIRECTORY --wait --timeout 5m
+        helm -n operator-system upgrade -i $release_name $CHART_DIRECTORY --wait --timeout 5m \
+          --set image.repository=ghcr.io/cbarbian-sap/project-operator
