@@ -29,7 +29,7 @@ spec:
     - bash
     - -ec
     - |
-        kubectl wait projects.core.cs.sap.com/{{ $projectName }} --for condition=Ready
+        kubectl wait projects.core.cs.sap.com/{{ $projectName }} --for condition=Ready --timeout 30s
         kubectl get namespace project-{{ $projectName }}
   serviceAccountName: {{ include "project-operator.fullname" . }}-test
   terminationGracePeriodSeconds: 3
