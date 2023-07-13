@@ -147,7 +147,7 @@ jobs:
         echo "sha=$sha" >> $GITHUB_OUTPUT
 
     - name: Wait for check suites to complete
-      uses: jitterbit/await-check-suites@v1
+      uses: cbarbian-sap/await-check-suites@v1
       with:
         ref: ${{ steps.get_target_commit.outputs.sha }}
         intervalSeconds: 10
