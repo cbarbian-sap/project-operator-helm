@@ -151,7 +151,7 @@ jobs:
       with:
         ref: ${{ steps.get_target_commit.outputs.sha }}
         intervalSeconds: 10
-        timeoutSeconds: 900
+        timeoutSeconds: 1800
         failStepIfUnsuccessful: true
         appSlugFilter: github-actions
 
