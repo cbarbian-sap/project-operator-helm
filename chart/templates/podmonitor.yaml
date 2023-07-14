@@ -2,8 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  namespace: cs-system
-  name: project-manager-pod-monitor
+  name: {{ include "project-operator.fullname" . }}
 spec:
   selector:
     matchLabels:
@@ -14,5 +13,5 @@ spec:
   - port: http
   namespaceSelector:
     matchNames:
-    - cs-system
+    - {{ .Release.Namespace }}
 {{- end }}

@@ -2,8 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: project-alerts
-  namespace: monitoring
+  name: {{ include "project-operator.fullname" . }}
 spec:
   groups:
   - name: project-operator-alerts
