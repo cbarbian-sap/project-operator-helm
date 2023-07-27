@@ -3,6 +3,16 @@ entries:
   project-operator:
   - apiVersion: v2
     appVersion: v0.1.2
+    created: "2023-07-27T21:13:04.083089275Z"
+    description: A Helm chart for https://github.com/sap/project-operator
+    digest: 0617e83c3e854a232096854a1df0f0c3e67f3c100114217ff3af5677533c2605
+    name: project-operator
+    type: application
+    urls:
+    - https://github.com/cbarbian-sap/project-operator-helm/releases/download/0.2.6/project-operator-0.2.6.tgz
+    version: 0.2.6
+  - apiVersion: v2
+    appVersion: v0.1.2
     created: "2023-07-27T20:49:56.867978146Z"
     description: A Helm chart for https://github.com/sap/project-operator
     digest: 70aa2077f798c51bc0662fba5cbee1719c28b250d67edfd6774321f6219a62a0
@@ -71,4 +81,4 @@ entries:
     urls:
     - https://github.com/cbarbian-sap/project-operator-helm/releases/download/0.1.0/project-operator-0.1.0.tgz
     version: 0.1.0
-generated: "2023-07-27T20:49:56.867247227Z"
+generated: "2023-07-27T21:13:04.081964019Z"
