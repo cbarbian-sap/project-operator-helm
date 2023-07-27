@@ -237,6 +237,8 @@ jobs:
         END
         git push
 
+        sha=$(git rev-parse HEAD)
+        echo "sha=$sha" >> $GITHUB_OUTPUT
         echo "version_bump=$version_bump" >> $GITHUB_OUTPUT
 
     - name: Release component operator repository
@@ -245,7 +247,7 @@ jobs:
       with:
         repo: ${{ steps.prepare.outputs.cop_repository }}
         workflow: release.yaml
-        ref: main
+        ref: ${{ steps.update.outputs.sha }}
         token: ${{ secrets.WORKFLOW_USER_GH_TOKEN }}
-        inputs: '{ "version-bump": "${{ steps.update.outputs.version_bump}}" }'
+        inputs: '{ "version-bump": "${{ steps.update.outputs.version_bump }}" }'
 
