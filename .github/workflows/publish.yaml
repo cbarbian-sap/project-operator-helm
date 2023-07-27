@@ -247,7 +247,7 @@ jobs:
       with:
         repo: ${{ steps.prepare.outputs.cop_repository }}
         workflow: release.yaml
-        ref: ${{ steps.update.outputs.sha }}
+        ref: main
         token: ${{ secrets.WORKFLOW_USER_GH_TOKEN }}
-        inputs: '{ "version-bump": "${{ steps.update.outputs.version_bump }}" }'
+        inputs: '{ "sha": "${{ steps.update.outputs.sha }}", "version-bump": "${{ steps.update.outputs.version_bump }}" }'
 
