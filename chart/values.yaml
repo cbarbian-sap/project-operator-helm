@@ -7,7 +7,7 @@ nameOverride: ""
 replicaCount: 1
 image:
   # -- Image repository
-  repository: ghcr.io/sap/project-operator
+  repository: ghcr.io/cbarbian-sap/project-operator
   # -- Image tag (defauls to .Chart.AppVersion)
   tag: ""
   # -- Image pull policy
