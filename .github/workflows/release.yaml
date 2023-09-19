@@ -53,7 +53,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.WORKFLOW_USER_GH_TOKEN }}
-        fetch-tags: true
+        fetch-depth: 0
 
     - name: Setup semver
       uses: sap/cs-actions/setup-semver@main
@@ -76,7 +76,8 @@ jobs:
     - name: Determine number of commits since current release
       id: get_commits_since_current_release
       run: |
-        echo "count=$(git rev-list --count --no-merges ${{ steps.get_current_release.outputs.tag }}..HEAD --before=1.hour)" >> $GITHUB_OUTPUT
+        count=$(git rev-list --count --no-merges ${{ steps.get_current_release.outputs.tag }}..HEAD --before=1.hour)
+        echo "count=$count" >> $GITHUB_OUTPUT
 
     - name: Determine target release
       id: get_target_release
