@@ -18,9 +18,8 @@ on:
         default: ''
 
   schedule:
-  - cron: '50 20 * * *'
-  #- cron: '10 9 * * 1'
-  #- cron: '10 10 * * 1'
+  - cron: '10 9 * * 1'
+  - cron: '10 10 * * 1'
 
 concurrency: trigger-release
 
@@ -74,30 +73,31 @@ jobs:
       with:
         prefix: ${{ env.TAG_PREFIX }}
 
-    - name: Determine number of commits since current release
-      id: get_commits_since_current_release
-      run: |
-        count=$(git rev-list --count --no-merges ${{ steps.get_current_release.outputs.tag }}..HEAD --before=1.hour)
-        echo "count=$count" >> $GITHUB_OUTPUT
-
     - name: Determine target release
       id: get_target_release
       run: |
         create_release=true
-        desired_version=${{ inputs.desired-version }}
-        current_version=${{ steps.get_current_release.outputs.version }}
 
         if ${{ github.event_name == 'schedule' }}; then
-          version_bump=patch
-          commits_count=${{ steps.get_commits_since_current_release.outputs.count }}
-
-          if [[ $commits_count -eq 0 ]]; then
+          commits_count=$(git rev-list --count --no-merges ${{ steps.get_current_release.outputs.tag }}..HEAD --before=1.hour)
+          if [ $commits_count -eq 0 ]; then
             create_release=false
-            >&2 echo "There are no commits since latest release found, nothing to do."
+            echo "There are no commits since latest release, nothing to do."
           fi
+          version_bump=patch
         else
           version_bump=${{ inputs.version-bump }}
         fi
+
+        echo "Create release: $create_release"
+        echo "create_release=$create_release" >> $GITHUB_OUTPUT
+
+        if [ "$create_release" != true ]; then
+          exit 0
+        fi
+
+        desired_version=${{ inputs.desired-version }}
+        current_version=${{ steps.get_current_release.outputs.version }}
 
         if [ -z "$desired_version" ]; then
           case $version_bump in
@@ -133,10 +133,8 @@ jobs:
           fi
         fi
 
-        echo "Create release: $create_release"
         echo "Target version: $version"
         echo "Target tag: $tag"
-        echo "create_release=$create_release" >> $GITHUB_OUTPUT
         echo "version=$version" >> $GITHUB_OUTPUT
         echo "tag=$tag" >> $GITHUB_OUTPUT
 
@@ -144,6 +142,7 @@ jobs:
       # a re-run of the job will fail in the following step, because it will try to make pushes to the triggering sha
       # which is no longer the head; this should be caught/improved.
     - name: Update chart version and chart docs
+      if: steps.get_target_release.outputs.create_release == 'true'
       run: |
         current_chart_version=$(yq .version $CHART_DIRECTORY/Chart.yaml)
         target_chart_version=${{ steps.get_target_release.outputs.tag }}
